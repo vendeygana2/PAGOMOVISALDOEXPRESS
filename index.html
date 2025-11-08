@@ -3,40 +3,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
+    <title>Pago Móvil Banco Mercantil Saldo Express</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
-            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        iframe {
-            border: none;
-            height: 100%;
-            width: 100%;
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
         }
-        .close-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #fff;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+        
+        .start-screen {
             text-align: center;
-            line-height: 26px;
+            color: #333;
+            max-width: 500px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .start-screen h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #1e3c72;
+        }
+        
+        .start-screen p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .pago-movil-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto 25px;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .start-btn {
+            background: linear-gradient(to right, #ffcc00, #ff9900);
+            color: #333;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 40px;
             font-size: 20px;
             font-weight: bold;
-            color: #333;
-            text-decoration: none;
             cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        
+        .start-btn:active {
+            transform: translateY(0);
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #ffcc00, #ff9900);
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .bank-logo {
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bank-logo i {
+            color: #1e3c72;
+            font-size: 24px;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .data-item {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .data-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .data-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .data-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f5f9ff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #d0e1ff;
+        }
+        
+        .data-text {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .copy-btn {
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #152a52;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background-color: #2ecc71;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #555;
+            border-left: 4px solid #1e3c72;
+        }
+        
+        .instructions h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .bank-logos {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .bank-logo-item {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 12px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(to right, #ffcc00, #ff9900);
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .back-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 15px;
+        }
+        
+        .back-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .data-value {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .copy-btn {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+            
+            .start-btn {
+                padding: 15px 30px;
+                font-size: 18px;
+            }
+            
+            .start-screen h1 {
+                font-size: 24px;
+            }
+            
+            .pago-movil-image {
+                max-width: 250px;
+            }
         }
     </style>
 </head>
 <body>
-    <a href="https://www.vendeygana.net/user/" class="close-button">×</a>
-    <iframe src="https://fluidforms.co/embed/form?id=67a10cd0e5022a1a8831350e"></iframe>
+    <div class="start-screen" id="startScreen">
+        <img src="https://i.pinimg.com/1200x/3f/3b/e5/3f3be597c77985551db1a538d37aff38.jpg" alt="Pago Móvil" class="pago-movil-image">
+        <h1>PAGO MÓVIL BANCO MERCANTIL</h1>
+        <p>Haga clic y copie los datos</p>
+        <button class="start-btn" id="startBtn">
+            <i class="fas fa-wallet"></i> PAGO MÓVIL SALDO EXPRESS
+        </button>
+    </div>
+    
+    <div class="container" id="container">
+        <div class="header">
+            <div class="bank-logo">
+                <i class="fas fa-university"></i>
+            </div>
+            <h1>PAGO MÓVIL <i class="fas fa-mobile-alt"></i> BANCO MERCANTIL <span class="badge">SALDO EXPRESS</span></h1>
+            <p>Realiza tus pagos de forma rápida y segura</p>
+        </div>
+        
+        <div class="content">
+            <div class="data-item">
+                <div class="data-label">
+                    <i class="fas fa-phone"></i> TELÉFONO
+                </div>
+                <div class="data-value">
+                    <span class="data-text" id="telefono">04247046511</span>
+                    <button class="copy-btn" data-target="telefono">
+                        <i class="far fa-copy"></i> Copiar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="data-item">
+                <div class="data-label">
+                    <i class="fas fa-id-card"></i> CÉDULA
+                </div>
+                <div class="data-value">
+                    <span class="data-text" id="cedula">9758369</span>
+                    <button class="copy-btn" data-target="cedula">
+                        <i class="far fa-copy"></i> Copiar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Instrucciones de uso:</h3>
+                <ol>
+                    <li>Haz clic en el botón <strong>"Copiar"</strong> junto al dato que necesitas</li>
+                    <li>Pega (<strong>Ctrl+V</strong>) en WhatsApp, aplicación del banco, etc.</li>
+                    <li>Completa el proceso de pago móvil con estos datos</li>
+                    <li>Confirma la transacción en tu aplicación bancaria</li>
+                </ol>
+            </div>
+            
+            <div class="bank-logos">
+                <div class="bank-logo-item">BM</div>
+                <div class="bank-logo-item">BV</div>
+                <div class="bank-logo-item">BP</div>
+                <div class="bank-logo-item">BB</div>
+                <div class="bank-logo-item">BS</div>
+            </div>
+            
+            <button class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </button>
+        </div>
+        
+        <div class="footer">
+            Pago Móvil Banco Mercantil - Saldo Express | Datos seguros y de fácil acceso
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startScreen = document.getElementById('startScreen');
+            const container = document.getElementById('container');
+            const startBtn = document.getElementById('startBtn');
+            const backBtn = document.getElementById('backBtn');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            // Mostrar información al hacer clic en el botón de inicio
+            startBtn.addEventListener('click', function() {
+                startScreen.style.display = 'none';
+                container.style.display = 'block';
+            });
+            
+            // Volver al inicio
+            backBtn.addEventListener('click', function() {
+                container.style.display = 'none';
+                startScreen.style.display = 'block';
+            });
+            
+            // Funcionalidad de copiar
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    const textToCopy = targetElement.textContent;
+                    
+                    // Crear un elemento de texto temporal para copiar
+                    const tempInput = document.createElement('input');
+                    tempInput.value = textToCopy;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    // Cambiar el texto del botón temporalmente
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                    this.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
