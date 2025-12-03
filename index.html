@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago Móvil Banco Mercantil Saldo Express</title>
+    <title>Pago Móvil Banco Provincial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,7 +14,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -37,7 +37,7 @@
         .start-screen h1 {
             font-size: 28px;
             margin-bottom: 20px;
-            color: #1e3c72;
+            color: #0066cc;
         }
         
         .start-screen p {
@@ -57,8 +57,8 @@
         }
         
         .start-btn {
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            color: #333;
+            background: linear-gradient(to right, #ff3333, #ff6666);
+            color: white;
             border: none;
             border-radius: 50px;
             padding: 18px 40px;
@@ -100,7 +100,7 @@
         }
         
         .header {
-            background: linear-gradient(to right, #1e3c72, #2a5298);
+            background: linear-gradient(to right, #0066cc, #0099ff);
             color: white;
             padding: 25px 20px;
             text-align: center;
@@ -114,7 +114,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(to right, #ffcc00, #ff9900);
+            background: linear-gradient(to right, #ff3333, #ff6666);
         }
         
         .header h1 {
@@ -144,7 +144,7 @@
         }
         
         .bank-logo i {
-            color: #1e3c72;
+            color: #0066cc;
             font-size: 24px;
         }
         
@@ -166,7 +166,7 @@
         .data-label {
             font-weight: 600;
             margin-bottom: 8px;
-            color: #1e3c72;
+            color: #0066cc;
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -190,7 +190,7 @@
         }
         
         .copy-btn {
-            background-color: #1e3c72;
+            background-color: #0066cc;
             color: white;
             border: none;
             border-radius: 5px;
@@ -204,7 +204,7 @@
         }
         
         .copy-btn:hover {
-            background-color: #152a52;
+            background-color: #0052a3;
             transform: translateY(-2px);
         }
         
@@ -219,11 +219,11 @@
             margin-top: 25px;
             font-size: 14px;
             color: #555;
-            border-left: 4px solid #1e3c72;
+            border-left: 4px solid #0066cc;
         }
         
         .instructions h3 {
-            color: #1e3c72;
+            color: #0066cc;
             margin-bottom: 10px;
             font-size: 16px;
             display: flex;
@@ -250,7 +250,7 @@
         .bank-logo-item {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #0066cc, #0099ff);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -272,8 +272,8 @@
         
         .badge {
             display: inline-block;
-            background: linear-gradient(to right, #ffcc00, #ff9900);
-            color: #333;
+            background: linear-gradient(to right, #ff3333, #ff6666);
+            color: white;
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 12px;
@@ -298,6 +298,68 @@
         
         .back-btn:hover {
             background-color: #e0e0e0;
+        }
+        
+        /* Estilo para el mensaje de agradecimiento */
+        .thank-you-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .thank-you-content {
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 5px solid #ff3333;
+        }
+        
+        .thank-you-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .thank-you-content p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        
+        .thank-you-icon {
+            font-size: 60px;
+            color: #ff3333;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-thank-you {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-thank-you:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
         }
         
         @media (max-width: 480px) {
@@ -335,13 +397,21 @@
             .pago-movil-image {
                 max-width: 250px;
             }
+            
+            .thank-you-content {
+                padding: 30px 20px;
+            }
+            
+            .thank-you-content h2 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="start-screen" id="startScreen">
         <img src="https://i.pinimg.com/1200x/3f/3b/e5/3f3be597c77985551db1a538d37aff38.jpg" alt="Pago Móvil" class="pago-movil-image">
-        <h1>PAGO MÓVIL BANCO MERCANTIL</h1>
+        <h1>PAGO MÓVIL BANCO PROVINCIAL</h1>
         <p>Haga clic y copie los datos</p>
         <button class="start-btn" id="startBtn">
             <i class="fas fa-wallet"></i> PAGO MÓVIL SALDO EXPRESS
@@ -353,18 +423,18 @@
             <div class="bank-logo">
                 <i class="fas fa-university"></i>
             </div>
-            <h1>PAGO MÓVIL <i class="fas fa-mobile-alt"></i> BANCO MERCANTIL <span class="badge">SALDO EXPRESS</span></h1>
+            <h1>PAGO MÓVIL <i class="fas fa-mobile-alt"></i> BANCO PROVINCIAL <span class="badge">SALDO EXPRESS</span></h1>
             <p>Realiza tus pagos de forma rápida y segura</p>
         </div>
         
         <div class="content">
             <div class="data-item">
                 <div class="data-label">
-                    <i class="fas fa-phone"></i> TELÉFONO
+                    <i class="fas fa-id-card"></i> RIF COMERCIAL
                 </div>
                 <div class="data-value">
-                    <span class="data-text" id="telefono">04247046511</span>
-                    <button class="copy-btn" data-target="telefono">
+                    <span class="data-text" id="rif">503901136</span>
+                    <button class="copy-btn" data-target="rif">
                         <i class="far fa-copy"></i> Copiar
                     </button>
                 </div>
@@ -372,11 +442,11 @@
             
             <div class="data-item">
                 <div class="data-label">
-                    <i class="fas fa-id-card"></i> CÉDULA
+                    <i class="fas fa-phone"></i> TELÉFONO
                 </div>
                 <div class="data-value">
-                    <span class="data-text" id="cedula">9758369</span>
-                    <button class="copy-btn" data-target="cedula">
+                    <span class="data-text" id="telefono">04247046511</span>
+                    <button class="copy-btn" id="copyTelefono" data-target="telefono">
                         <i class="far fa-copy"></i> Copiar
                     </button>
                 </div>
@@ -393,9 +463,9 @@
             </div>
             
             <div class="bank-logos">
+                <div class="bank-logo-item">BP</div>
                 <div class="bank-logo-item">BM</div>
                 <div class="bank-logo-item">BV</div>
-                <div class="bank-logo-item">BP</div>
                 <div class="bank-logo-item">BB</div>
                 <div class="bank-logo-item">BS</div>
             </div>
@@ -406,7 +476,19 @@
         </div>
         
         <div class="footer">
-            Pago Móvil Banco Mercantil - Saldo Express | Datos seguros y de fácil acceso
+            Pago Móvil Banco Provincial - Saldo Express | Datos seguros y de fácil acceso
+        </div>
+    </div>
+    
+    <!-- Modal de agradecimiento -->
+    <div class="thank-you-modal" id="thankYouModal">
+        <div class="thank-you-content">
+            <div class="thank-you-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h2>¡MIL GRACIAS POR PREFERIRNOS!</h2>
+            <p>Tu apoyo es muy importante para nosotros</p>
+            <button class="close-thank-you" id="closeThankYou">Cerrar</button>
         </div>
     </div>
 
@@ -417,6 +499,9 @@
             const startBtn = document.getElementById('startBtn');
             const backBtn = document.getElementById('backBtn');
             const copyButtons = document.querySelectorAll('.copy-btn');
+            const thankYouModal = document.getElementById('thankYouModal');
+            const closeThankYou = document.getElementById('closeThankYou');
+            const copyTelefonoBtn = document.getElementById('copyTelefono');
             
             // Mostrar información al hacer clic en el botón de inicio
             startBtn.addEventListener('click', function() {
@@ -430,31 +515,69 @@
                 startScreen.style.display = 'block';
             });
             
-            // Funcionalidad de copiar
-            copyButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const targetElement = document.getElementById(targetId);
-                    const textToCopy = targetElement.textContent;
-                    
-                    // Crear un elemento de texto temporal para copiar
-                    const tempInput = document.createElement('input');
-                    tempInput.value = textToCopy;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    
-                    // Cambiar el texto del botón temporalmente
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
-                    this.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                        this.classList.remove('copied');
-                    }, 2000);
-                });
+            // Funcionalidad de copiar para RIF
+            document.querySelector('[data-target="rif"]').addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                const textToCopy = targetElement.textContent;
+                
+                // Crear un elemento de texto temporal para copiar
+                const tempInput = document.createElement('input');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Cambiar el texto del botón temporalmente
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                this.classList.add('copied');
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+            
+            // Funcionalidad especial para copiar teléfono
+            copyTelefonoBtn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                const textToCopy = targetElement.textContent;
+                
+                // Crear un elemento de texto temporal para copiar
+                const tempInput = document.createElement('input');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                // Mostrar el mensaje de agradecimiento
+                thankYouModal.style.display = 'flex';
+                
+                // Cambiar el texto del botón temporalmente
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                this.classList.add('copied');
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+            
+            // Cerrar modal de agradecimiento
+            closeThankYou.addEventListener('click', function() {
+                thankYouModal.style.display = 'none';
+            });
+            
+            // Cerrar modal al hacer clic fuera del contenido
+            thankYouModal.addEventListener('click', function(e) {
+                if (e.target === thankYouModal) {
+                    thankYouModal.style.display = 'none';
+                }
             });
         });
     </script>
