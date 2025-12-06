@@ -300,8 +300,8 @@
             background-color: #e0e0e0;
         }
         
-        /* Estilo para el mensaje de agradecimiento */
-        .thank-you-modal {
+        /* Modal para solicitar captura de pago */
+        .capture-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -315,38 +315,75 @@
             animation: fadeIn 0.3s ease;
         }
         
-        .thank-you-content {
+        .capture-content {
             background: linear-gradient(135deg, #0066cc, #0099ff);
-            padding: 40px;
+            padding: 40px 30px;
             border-radius: 15px;
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             color: white;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
-            border: 5px solid #ff3333;
+            border: 5px solid #25D366;
         }
         
-        .thank-you-content h2 {
+        .capture-content h2 {
             font-size: 28px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .thank-you-content p {
+        .thank-you-message {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #ff3333;
+        }
+        
+        .capture-instruction {
             font-size: 18px;
             margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: bold;
         }
         
-        .thank-you-icon {
+        .capture-icon {
             font-size: 60px;
-            color: #ff3333;
+            color: #25D366;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .close-thank-you {
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto 15px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .close-capture {
             background-color: #ff3333;
             color: white;
             border: none;
@@ -357,7 +394,7 @@
             transition: all 0.3s;
         }
         
-        .close-thank-you:hover {
+        .close-capture:hover {
             background-color: #cc0000;
             transform: scale(1.05);
         }
@@ -398,12 +435,21 @@
                 max-width: 250px;
             }
             
-            .thank-you-content {
+            .capture-content {
                 padding: 30px 20px;
             }
             
-            .thank-you-content h2 {
+            .capture-content h2 {
                 font-size: 24px;
+            }
+            
+            .thank-you-message {
+                font-size: 16px;
+                padding: 10px;
+            }
+            
+            .capture-instruction {
+                font-size: 16px;
             }
         }
     </style>
@@ -480,15 +526,25 @@
         </div>
     </div>
     
-    <!-- Modal de agradecimiento -->
-    <div class="thank-you-modal" id="thankYouModal">
-        <div class="thank-you-content">
-            <div class="thank-you-icon">
-                <i class="fas fa-heart"></i>
+    <!-- Modal para solicitar captura de pago -->
+    <div class="capture-modal" id="captureModal">
+        <div class="capture-content">
+            <div class="capture-icon">
+                <i class="fab fa-whatsapp"></i>
             </div>
-            <h2>¡MIL GRACIAS POR PREFERIRNOS!</h2>
-            <p>Tu apoyo es muy importante para nosotros</p>
-            <button class="close-thank-you" id="closeThankYou">Cerrar</button>
+            <h2>¡GRACIAS POR PREFERIRNOS!</h2>
+            
+            <div class="thank-you-message">
+                RECUERDA QUE AQUÍ TAMBIÉN ENCUENTRAS AL MEJOR PRECIO Y CON GARANTÍA TUS CUENTAS NETFLIX, AMAZON, CANVA, DISNEY Y MUCHO MÁS
+            </div>
+            
+            <p class="capture-instruction">Ahora por favor envíe el capture de su pago:</p>
+            
+            <button class="whatsapp-btn" id="whatsappBtn">
+                <i class="fab fa-whatsapp"></i> ENVIAR CAPTURE POR WHATSAPP
+            </button>
+            
+            <button class="close-capture" id="closeCapture">Cerrar</button>
         </div>
     </div>
 
@@ -499,8 +555,9 @@
             const startBtn = document.getElementById('startBtn');
             const backBtn = document.getElementById('backBtn');
             const copyButtons = document.querySelectorAll('.copy-btn');
-            const thankYouModal = document.getElementById('thankYouModal');
-            const closeThankYou = document.getElementById('closeThankYou');
+            const captureModal = document.getElementById('captureModal');
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const closeCapture = document.getElementById('closeCapture');
             const copyTelefonoBtn = document.getElementById('copyTelefono');
             
             // Mostrar información al hacer clic en el botón de inicio
@@ -515,68 +572,84 @@
                 startScreen.style.display = 'block';
             });
             
-            // Funcionalidad de copiar para RIF
+            // Función para copiar texto al portapapeles
+            function copyToClipboard(text) {
+                const tempInput = document.createElement('input');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            }
+            
+            // Función para cambiar el estado del botón de copiar
+            function changeButtonState(button) {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }
+            
+            // Funcionalidad de copiar para RIF (primer botón)
             document.querySelector('[data-target="rif"]').addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
                 const targetElement = document.getElementById(targetId);
                 const textToCopy = targetElement.textContent;
                 
-                // Crear un elemento de texto temporal para copiar
-                const tempInput = document.createElement('input');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                
-                // Cambiar el texto del botón temporalmente
-                const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
-                this.classList.add('copied');
-                
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.classList.remove('copied');
-                }, 2000);
+                copyToClipboard(textToCopy);
+                changeButtonState(this);
             });
             
-            // Funcionalidad especial para copiar teléfono
+            // Funcionalidad especial para copiar teléfono (último botón)
             copyTelefonoBtn.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
                 const targetElement = document.getElementById(targetId);
                 const textToCopy = targetElement.textContent;
                 
-                // Crear un elemento de texto temporal para copiar
-                const tempInput = document.createElement('input');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
+                copyToClipboard(textToCopy);
+                changeButtonState(this);
                 
-                // Mostrar el mensaje de agradecimiento
-                thankYouModal.style.display = 'flex';
-                
-                // Cambiar el texto del botón temporalmente
-                const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
-                this.classList.add('copied');
-                
+                // Mostrar modal cuando se copia el teléfono
                 setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.classList.remove('copied');
-                }, 2000);
+                    captureModal.style.display = 'flex';
+                }, 300);
             });
             
-            // Cerrar modal de agradecimiento
-            closeThankYou.addEventListener('click', function() {
-                thankYouModal.style.display = 'none';
+            // Abrir WhatsApp al hacer clic en el botón
+            whatsappBtn.addEventListener('click', function() {
+                // Número de WhatsApp formateado para enlace
+                const phoneNumber = "+584247046511";
+                const message = "Hola, aquí está el captura de mi pago";
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                
+                window.open(whatsappUrl, '_blank');
+                
+                // Cerrar el modal después de abrir WhatsApp
+                setTimeout(() => {
+                    captureModal.style.display = 'none';
+                }, 500);
+            });
+            
+            // Cerrar modal de captura
+            closeCapture.addEventListener('click', function() {
+                captureModal.style.display = 'none';
             });
             
             // Cerrar modal al hacer clic fuera del contenido
-            thankYouModal.addEventListener('click', function(e) {
-                if (e.target === thankYouModal) {
-                    thankYouModal.style.display = 'none';
+            captureModal.addEventListener('click', function(e) {
+                if (e.target === captureModal) {
+                    captureModal.style.display = 'none';
+                }
+            });
+            
+            // También cerrar modal con la tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && captureModal.style.display === 'flex') {
+                    captureModal.style.display = 'none';
                 }
             });
         });
